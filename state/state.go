@@ -27,6 +27,10 @@ func (v *State) AddStudent(name, surname string) error {
 	return v.storage.AddStudent(name, surname)
 }
 
+func (v *State) AddClass(year, modifier string) error {
+	return v.storage.AddClass(year, modifier)
+}
+
 // Quit requests quitting the application.
 func (v *State) Quit() {
 	v.quit = true
