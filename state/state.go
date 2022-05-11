@@ -22,6 +22,10 @@ func (h *State) Students() ([]storage.StudentEntry, error) {
 	return h.storage.Students()
 }
 
+func (h *State) Classes() ([]storage.ClassEntry, error) {
+	return h.storage.Classes()
+}
+
 // AddStudent adds a student to the database.
 func (v *State) AddStudent(name, surname string) error {
 	return v.storage.AddStudent(name, surname)
