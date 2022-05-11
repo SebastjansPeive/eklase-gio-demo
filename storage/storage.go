@@ -28,18 +28,20 @@ var (
 	// Statement for adding a new entry into `students` table.
 	insertStudentsStmt = `INSERT INTO students (name, surname) VALUES(?, ?)`
 	// Statement for getting all entries from `students` table.
-	selectStudentsStmt = `SELECT name, surname FROM students`
+	selectStudentsStmt = `SELECT id, name, surname FROM students`
 	insertClassesStmt  = `INSERT INTO classes (year, modifier) VALUES(?, ?)`
-	selectClassesStmt  = `SELECT year, modifier FROM classes`
+	selectClassesStmt  = `SELECT id, year, modifier FROM classes`
 )
 
 // StudentEntry represents a row for a single student in the DB.
 type StudentEntry struct {
+	ID 		int    `db:"id"`
 	Name    string `db:"name"`
 	Surname string `db:"surname"`
 }
 
 type ClassEntry struct {
+	ID 		 int 	`db:"id"`
 	Year     string `db:"year"`
 	Modifier string `db:"modifier"`
 }

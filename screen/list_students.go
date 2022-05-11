@@ -43,7 +43,7 @@ func ListStudent(th *material.Theme, state *state.State) Screen {
 					paint.FillShape(gtx.Ops, color, clip.Rect{Max: max}.Op())
 					return layout.Dimensions{Size: gtx.Constraints.Min}
 				}),
-				layout.Stacked(rowInset(material.Body1(th, fmt.Sprintf("%s %s", student.Surname, student.Name)).Layout)),
+				layout.Stacked(rowInset(material.Body1(th, fmt.Sprintf("%v %s %s", student.ID, student.Surname, student.Name)).Layout)),
 			)
 		})
 	}
@@ -88,7 +88,7 @@ func ListClass(th *material.Theme, state *state.State) Screen {
 					paint.FillShape(gtx.Ops, color, clip.Rect{Max: max}.Op())
 					return layout.Dimensions{Size: gtx.Constraints.Min}
 				}),
-				layout.Stacked(rowInset(material.Body1(th, fmt.Sprintf("%s %s", class.Year, class.Modifier)).Layout)),
+				layout.Stacked(rowInset(material.Body1(th, fmt.Sprintf("%v %s %s", class.ID, class.Year, class.Modifier)).Layout)),
 			)
 		})
 	}
