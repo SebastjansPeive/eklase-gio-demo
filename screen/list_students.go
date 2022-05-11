@@ -59,3 +59,48 @@ func ListStudent(th *material.Theme, state *state.State) Screen {
 		return nil, d
 	}
 }
+
+func ListClass(th *material.Theme, state *state.State) Screen {
+	var close widget.Clickable
+	list2 := widget.List{List: layout.List{Axis: layout.Vertical}}
+
+	lightContrast := th.ContrastBg
+	lightContrast.A = 0x11
+	darkContrast := th.ContrastBg
+	darkContrast.A = 0x33
+
+	classes, err := state.Classes()
+	if err != nil {
+		log.Printf("failed to fetch classes: %v", err)
+		return nil
+	}
+
+	classesLayout := func(gtx layout.Context) layout.Dimensions {
+		return material.List(th, &list2).Layout(gtx, len(classes), func(gtx layout.Context, index int) layout.Dimensions {
+			class := classes[index]
+			return layout.Stack{}.Layout(gtx,
+				layout.Expanded(func(gtx layout.Context) layout.Dimensions {
+					color := lightContrast
+					if index%2 == 0 {
+						color = darkContrast
+					}
+					max := image.Pt(gtx.Constraints.Max.X, gtx.Constraints.Min.Y)
+					paint.FillShape(gtx.Ops, color, clip.Rect{Max: max}.Op())
+					return layout.Dimensions{Size: gtx.Constraints.Min}
+				}),
+				layout.Stacked(rowInset(material.Body1(th, fmt.Sprintf("%s %s", class.Year, class.Modifier)).Layout)),
+			)
+		})
+	}
+
+	return func(gtx layout.Context) (Screen, layout.Dimensions) {
+		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+			layout.Flexed(1, rowInset(classesLayout)),
+			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
+		)
+		if close.Clicked() {
+			return MainMenu(th, state), d
+		}
+		return nil, d
+	}
+}

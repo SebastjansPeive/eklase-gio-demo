@@ -12,9 +12,11 @@ import (
 // MainMenu defines a main menu screen layout.
 func MainMenu(th *material.Theme, state *state.State) Screen {
 	var (
-		add  widget.Clickable
-		list widget.Clickable
-		quit widget.Clickable
+		add   widget.Clickable
+		add2  widget.Clickable
+		list  widget.Clickable
+		list2 widget.Clickable
+		quit  widget.Clickable
 	)
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
 		matAddBut := material.Button(th, &add, "Add student")
@@ -25,15 +27,23 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		matQuitBut.Font = text.Font{Variant: "Mono", Style: text.Regular}
 
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
-			layout.Rigid(rowInset(matAddBut.Layout)),
-			layout.Rigid(rowInset(matListBut.Layout)),
-			layout.Rigid(rowInset(matQuitBut.Layout)),
+			layout.Rigid(rowInset(material.Button(th, &add, "Add student").Layout)),
+			layout.Rigid(rowInset(material.Button(th, &add2, "Add class").Layout)),
+			layout.Rigid(rowInset(material.Button(th, &list, "List students").Layout)),
+			layout.Rigid(rowInset(material.Button(th, &list2, "List classes").Layout)),
+			layout.Rigid(rowInset(material.Button(th, &quit, "Quit").Layout)),
 		)
 		if add.Clicked() {
 			return AddStudent(th, state), d
 		}
+		if add2.Clicked() {
+			return AddClass(th, state), d
+		}
 		if list.Clicked() {
 			return ListStudent(th, state), d
+		}
+		if list2.Clicked() {
+			return ListClass(th, state), d
 		}
 		if quit.Clicked() {
 			state.Quit()

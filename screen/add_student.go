@@ -88,14 +88,14 @@ func AddClass(th *material.Theme, state *state.State) Screen {
 	editsRowLayout := func(gtx layout.Context) layout.Dimensions {
 		return layout.Flex{Axis: layout.Horizontal}.Layout(gtx,
 			layout.Flexed(1, material.Editor(th, &year, "Year").Layout),
-			layout.Rigid(spacerLayout),
+			layout.Rigid(spacer.Layout),
 			layout.Flexed(1, material.Editor(th, &modifier, "Modifier").Layout),
 		)
 	}
 	buttonsRowLayout := func(gtx layout.Context) layout.Dimensions {
 		return layout.Flex{Axis: layout.Horizontal, Spacing: layout.SpaceStart}.Layout(gtx,
 			layout.Rigid(material.Button(th, &close, "Close").Layout),
-			layout.Rigid(spacerLayout),
+			layout.Rigid(spacer.Layout),
 			layout.Rigid(enabledIfNameOK(material.Button(th, &save, "Save").Layout)),
 		)
 	}
