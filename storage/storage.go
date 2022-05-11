@@ -12,22 +12,36 @@ var (
 	// Statement for creating tables. Currently creates `students` table only.
 	// In the future can be expanded with creation of other tables.
 	createTableStmt = `
-CREATE TABLE IF NOT EXISTS students (
-	id	INTEGER,
-	name	TEXT,
-	surname	TEXT,
-	PRIMARY KEY(id AUTOINCREMENT)
-);`
+
+	CREATE TABLE IF NOT EXISTS students (
+		id	INTEGER,
+		name	TEXT,
+		surname	TEXT,
+		PRIMARY KEY(id AUTOINCREMENT)
+	);
+	CREATE TABLE IF NOT EXISTS classes (
+		id	INTEGER,
+		year INTEGER,
+		modifier	TEXT,
+		PRIMARY KEY(id AUTOINCREMENT)
+	);`
 	// Statement for adding a new entry into `students` table.
 	insertStudentsStmt = `INSERT INTO students (name, surname) VALUES(?, ?)`
 	// Statement for getting all entries from `students` table.
 	selectStudentsStmt = `SELECT name, surname FROM students`
+	insertClassesStmt  = `INSERT INTO classes (year, modifier) VALUES(?, ?)`
+	selectClassesStmt  = `SELECT year, modifier FROM classes`
 )
 
 // StudentEntry represents a row for a single student in the DB.
 type StudentEntry struct {
 	Name    string `db:"name"`
 	Surname string `db:"surname"`
+}
+
+type ClassEntry struct {
+	Year     string `db:"year"`
+	Modifier string `db:"modifier"`
 }
 
 // Storage is an interface for interacting with persistent storage.
@@ -79,11 +93,30 @@ func (s Storage) Students() ([]StudentEntry, error) {
 	return entries, nil
 }
 
+func (s Storage) Classes() ([]ClassEntry, error) {
+	var entries2 []ClassEntry
+	if err := s.db.Select(&entries2, selectClassesStmt); err != nil {
+		return nil, fmt.Errorf("querying 'classes' table failed. Query: %v\nError: %v", selectClassesStmt, err)
+	}
+	return entries2, nil
+}
+
 // AddStudent appends a new student entry to the database.
 func (s *Storage) AddStudent(name, surname string) error {
 	// Attempt to add an entry to the database first.
 	// If it fails, the student field will not be modified.
 	res, err := s.db.Exec(insertStudentsStmt, name, surname)
+	if err != nil {
+		return fmt.Errorf("table creation failed. Query: %v\nError: %v", createTableStmt, err)
+	}
+	if cnt, err := res.RowsAffected(); err != nil {
+		log.Printf("%d rows affected.", cnt)
+	}
+	return nil
+}
+
+func (s *Storage) AddClass(year, modifier string) error {
+	res, err := s.db.Exec(insertClassesStmt, year, modifier)
 	if err != nil {
 		return fmt.Errorf("table creation failed. Query: %v\nError: %v", createTableStmt, err)
 	}
