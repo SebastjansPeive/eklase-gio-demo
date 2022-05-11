@@ -50,6 +50,7 @@ func ListStudent(th *material.Theme, state *state.State) Screen {
 
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+			layout.Flexed(0.05, rowInset(material.Body1(th, fmt.Sprintf("%s %s %s", "ID", "Surname", "Name")).Layout)),
 			layout.Flexed(1, rowInset(studentsLayout)),
 			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
 		)
@@ -95,6 +96,7 @@ func ListClass(th *material.Theme, state *state.State) Screen {
 
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+			layout.Flexed(0.05, rowInset(material.Body1(th, fmt.Sprintf("%s %s %s", "ID", "Year", "Modifier")).Layout)),
 			layout.Flexed(1, rowInset(classesLayout)),
 			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
 		)
