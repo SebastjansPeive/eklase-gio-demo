@@ -29,14 +29,14 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		matList2But.Font = text.Font{Variant: "Mono", Style: text.Regular}
 		matQuitBut := material.Button(th, &quit, "Quit")
 		matQuitBut.Font = text.Font{Variant: "Mono", Style: text.Regular}
-		
+
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Rigid(rowInset(material.Button(th, &add, "Add student").Layout)),
 			layout.Rigid(rowInset(material.Button(th, &add2, "Add class").Layout)),
 			layout.Rigid(rowInset(material.Button(th, &list, "List students").Layout)),
 			layout.Rigid(rowInset(material.Button(th, &list2, "List classes").Layout)),
 			layout.Rigid(rowInset(material.Button(th, &quit, "Quit").Layout)),
-
+		)
 		if add.Clicked() {
 			return AddStudent(th, state), d
 		}
