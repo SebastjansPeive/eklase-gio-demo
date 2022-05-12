@@ -20,15 +20,15 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 	)
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
 		matAddBut := material.Button(th, &add, "Add student")
-		matAddBut.Font = text.Font{Variant: "Mono", Style: text.Regular}
+		matAddBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matAdd2But := material.Button(th, &add2, "Add classes")
-		matAdd2But.Font = text.Font{Variant: "Mono", Style: text.Regular}
+		matAdd2But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matListBut := material.Button(th, &list, "List students")
-		matListBut.Font = text.Font{Variant: "Mono", Style: text.Regular}
+		matListBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matList2But := material.Button(th, &list2, "List classes")
-		matList2But.Font = text.Font{Variant: "Mono", Style: text.Regular}
+		matList2But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matQuitBut := material.Button(th, &quit, "Quit")
-		matQuitBut.Font = text.Font{Variant: "Mono", Style: text.Regular}
+		matQuitBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Rigid(rowInset(matAddBut.Layout)),
