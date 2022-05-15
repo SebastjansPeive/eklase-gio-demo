@@ -106,3 +106,49 @@ func ListClass(th *material.Theme, state *state.State) Screen {
 		return nil, d
 	}
 }
+
+func ListGroup(th *material.Theme, state *state.State) Screen {
+	var close widget.Clickable
+	list := widget.List{List: layout.List{Axis: layout.Vertical}}
+
+	lightContrast := th.ContrastBg
+	lightContrast.A = 0x11
+	darkContrast := th.ContrastBg
+	darkContrast.A = 0x33
+
+	groups, err := state.Groups()
+	if err != nil {
+		log.Printf("failed to fetch groups: %v", err)
+		return nil
+	}
+
+	groupsLayout := func(gtx layout.Context) layout.Dimensions {
+		return material.List(th, &list).Layout(gtx, len(groups), func(gtx layout.Context, index int) layout.Dimensions {
+			group := groups[index]
+			return layout.Stack{}.Layout(gtx,
+				layout.Expanded(func(gtx layout.Context) layout.Dimensions {
+					color := lightContrast
+					if index%2 == 0 {
+						color = darkContrast
+					}
+					max := image.Pt(gtx.Constraints.Max.X, gtx.Constraints.Min.Y)
+					paint.FillShape(gtx.Ops, color, clip.Rect{Max: max}.Op())
+					return layout.Dimensions{Size: gtx.Constraints.Min}
+				}),
+				layout.Stacked(rowInset(material.Body1(th, fmt.Sprintf("%s %s %s %s", group.Name, group.Surname, group.Year.String, group.Modifier.String)).Layout)),
+			)
+		})
+	}
+
+	return func(gtx layout.Context) (Screen, layout.Dimensions) {
+		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+			layout.Flexed(0.05, rowInset(material.Body1(th, fmt.Sprintf("%s %s %s %s", "Name", "Surname", "Year", "Modifier")).Layout)),
+			layout.Flexed(1, rowInset(groupsLayout)),
+			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
+		)
+		if close.Clicked() {
+			return MainMenu(th, state), d
+		}
+		return nil, d
+	}
+}

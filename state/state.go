@@ -26,6 +26,10 @@ func (h *State) Classes() ([]storage.ClassEntry, error) {
 	return h.storage.Classes()
 }
 
+func (h *State) Groups() ([]storage.GroupEntry, error) {
+	return h.storage.Groups()
+}
+
 // AddStudent adds a student to the database.
 func (v *State) AddStudent(name, surname string) error {
 	return v.storage.AddStudent(name, surname)

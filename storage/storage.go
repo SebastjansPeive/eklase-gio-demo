@@ -4,6 +4,7 @@ package storage
 import (
 	"fmt"
 	"log"
+	"database/sql"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -24,13 +25,24 @@ var (
 		year INTEGER,
 		modifier	TEXT,
 		PRIMARY KEY(id AUTOINCREMENT)
+	);
+	CREATE TABLE IF NOT EXISTS groups (
+		student_id	INTEGER,
+		name TEXT,
+		surname TEXT,
+		class_id INTEGER,
+		year INTEGER,
+		modifier	TEXT,
+		PRIMARY KEY(student_id)
 	);`
 	// Statement for adding a new entry into `students` table.
-	insertStudentsStmt = `INSERT INTO students (name, surname) VALUES(?, ?)`
+	insertStudentsStmt = `INSERT INTO students (name, surname) VALUES(?, ?);
+	INSERT INTO groups (name, surname) VALUES(?, ?);`
 	// Statement for getting all entries from `students` table.
 	selectStudentsStmt = `SELECT id, name, surname FROM students`
 	insertClassesStmt  = `INSERT INTO classes (year, modifier) VALUES(?, ?)`
 	selectClassesStmt  = `SELECT id, year, modifier FROM classes`
+	selectGroupsStmt   = `SELECT name, surname, year, modifier FROM groups`
 )
 
 // StudentEntry represents a row for a single student in the DB.
@@ -44,6 +56,15 @@ type ClassEntry struct {
 	ID 		 int 	`db:"id"`
 	Year     string `db:"year"`
 	Modifier string `db:"modifier"`
+}
+
+type GroupEntry struct {
+	StudentID int    `db:"student_id"`
+	Name      string `db:"name"`
+	Surname   string `db:"surname"`
+	ClassID   int    `db:"class_id"`
+	Year      sql.NullString `db:"year"`
+	Modifier  sql.NullString `db:"modifier"`
 }
 
 // Storage is an interface for interacting with persistent storage.
@@ -101,6 +122,14 @@ func (s Storage) Classes() ([]ClassEntry, error) {
 		return nil, fmt.Errorf("querying 'classes' table failed. Query: %v\nError: %v", selectClassesStmt, err)
 	}
 	return entries2, nil
+}
+
+func (s Storage) Groups() ([]GroupEntry, error) {
+	var entries []GroupEntry
+	if err := s.db.Select(&entries, selectGroupsStmt); err != nil {
+		return nil, fmt.Errorf("querying 'groups' table failed. Query: %v\nError: %v", selectGroupsStmt, err)
+	}
+	return entries, nil
 }
 
 // AddStudent appends a new student entry to the database.

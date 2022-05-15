@@ -18,6 +18,7 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		add2  widget.Clickable
 		list  widget.Clickable
 		list2 widget.Clickable
+		list3 widget.Clickable
 		quit  widget.Clickable
 	)
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
@@ -33,6 +34,9 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		matList2But := material.Button(th, &list2, "List classes")
 		matList2But.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
 		matList2But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
+		matList3But := material.Button(th, &list3, "List groups")
+		matList3But.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x54}
+		matList3But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matQuitBut := material.Button(th, &quit, "Quit")
 		matQuitBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x54}
 		matQuitBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
@@ -42,6 +46,7 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 			layout.Rigid(rowInset(matAdd2But.Layout)),
 			layout.Rigid(rowInset(matListBut.Layout)),
 			layout.Rigid(rowInset(matList2But.Layout)),
+			layout.Rigid(rowInset(matList3But.Layout)),
 			layout.Rigid(rowInset(matQuitBut.Layout)),
 		)
 		if add.Clicked() {
@@ -55,6 +60,9 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		}
 		if list2.Clicked() {
 			return ListClass(th, state), d
+		}
+		if list3.Clicked() {
+			return ListGroup(th, state), d
 		}
 		if quit.Clicked() {
 			state.Quit()
