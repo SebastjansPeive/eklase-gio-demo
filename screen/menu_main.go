@@ -3,6 +3,8 @@ package screen
 import (
 	"eklase/state"
 
+	"image/color"
+
 	"gioui.org/layout"
 	"gioui.org/text"
 	"gioui.org/widget"
@@ -20,14 +22,19 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 	)
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
 		matAddBut := material.Button(th, &add, "Add student")
+		matAddBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x94}
 		matAddBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matAdd2But := material.Button(th, &add2, "Add classes")
+		matAdd2But.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x84}
 		matAdd2But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matListBut := material.Button(th, &list, "List students")
+		matListBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x74}
 		matListBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matList2But := material.Button(th, &list2, "List classes")
+		matList2But.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
 		matList2But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matQuitBut := material.Button(th, &quit, "Quit")
+		matQuitBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x54}
 		matQuitBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
