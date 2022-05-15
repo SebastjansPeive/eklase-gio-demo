@@ -30,7 +30,6 @@ var (
 		student_id	INTEGER,
 		name TEXT,
 		surname TEXT,
-		class_id INTEGER,
 		year INTEGER,
 		modifier	TEXT,
 		PRIMARY KEY(student_id)
@@ -43,6 +42,7 @@ var (
 	insertClassesStmt  = `INSERT INTO classes (year, modifier) VALUES(?, ?)`
 	selectClassesStmt  = `SELECT id, year, modifier FROM classes`
 	selectGroupsStmt   = `SELECT name, surname, year, modifier FROM groups`
+	assignClassToStudentStmt = `UPDATE groups SET year = ?, modifier = ? WHERE student_id = ?`
 )
 
 // StudentEntry represents a row for a single student in the DB.
@@ -60,8 +60,8 @@ type ClassEntry struct {
 
 type GroupEntry struct {
 	StudentID int    `db:"student_id"`
-	Name      string `db:"name"`
-	Surname   string `db:"surname"`
+	Name      sql.NullString `db:"name"`
+	Surname   sql.NullString `db:"surname"`
 	ClassID   int    `db:"class_id"`
 	Year      sql.NullString `db:"year"`
 	Modifier  sql.NullString `db:"modifier"`
@@ -148,6 +148,17 @@ func (s *Storage) AddStudent(name, surname string) error {
 
 func (s *Storage) AddClass(year, modifier string) error {
 	res, err := s.db.Exec(insertClassesStmt, year, modifier)
+	if err != nil {
+		return fmt.Errorf("table creation failed. Query: %v\nError: %v", createTableStmt, err)
+	}
+	if cnt, err := res.RowsAffected(); err != nil {
+		log.Printf("%d rows affected.", cnt)
+	}
+	return nil
+}
+
+func (s *Storage) AssignClassToStudent(year, modifier string, student_id int) error {
+	res, err := s.db.Exec(assignClassToStudentStmt, year, modifier, student_id)
 	if err != nil {
 		return fmt.Errorf("table creation failed. Query: %v\nError: %v", createTableStmt, err)
 	}

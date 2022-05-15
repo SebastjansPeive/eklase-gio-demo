@@ -122,6 +122,8 @@ func ListGroup(th *material.Theme, state *state.State) Screen {
 		return nil
 	}
 
+	assign := make([]widget.Clickable, len(groups))
+
 	groupsLayout := func(gtx layout.Context) layout.Dimensions {
 		return material.List(th, &list).Layout(gtx, len(groups), func(gtx layout.Context, index int) layout.Dimensions {
 			group := groups[index]
@@ -135,7 +137,12 @@ func ListGroup(th *material.Theme, state *state.State) Screen {
 					paint.FillShape(gtx.Ops, color, clip.Rect{Max: max}.Op())
 					return layout.Dimensions{Size: gtx.Constraints.Min}
 				}),
-				layout.Stacked(rowInset(material.Body1(th, fmt.Sprintf("%s %s %s %s", group.Name, group.Surname, group.Year.String, group.Modifier.String)).Layout)),
+				layout.Stacked(rowInset(func(gtx layout.Context) layout.Dimensions {
+					return layout.Flex{}.Layout(gtx,
+						layout.Rigid(rowInset(material.Body1(th, fmt.Sprintf("%s %s %s %s ", group.Name.String, group.Surname.String, group.Year.String, group.Modifier.String)).Layout)),
+						layout.Rigid(rowInset(material.Button(th, &assign[index], "Assign class to student").Layout)),
+					)
+				})),
 			)
 		})
 	}
@@ -146,6 +153,11 @@ func ListGroup(th *material.Theme, state *state.State) Screen {
 			layout.Flexed(1, rowInset(groupsLayout)),
 			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
 		)
+		for i := range assign {
+			if assign[i].Clicked() {
+				return AssignClassToStudent(th, state, i+1), d
+			}
+		}
 		if close.Clicked() {
 			return MainMenu(th, state), d
 		}
