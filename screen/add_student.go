@@ -79,7 +79,11 @@ func AddClass(th *material.Theme, state *state.State) Screen {
 		return func(gtx layout.Context) layout.Dimensions {
 			year := strings.TrimSpace(year.Text())
 			modifier := strings.TrimSpace(modifier.Text())
-			if year == "" && modifier == "" {
+			if year == "" || modifier == "" {
+				gtx = gtx.Disabled()
+			} else if strings.ContainsAny(year, "qwertyuiopasdfghjklzxcvbnm") {
+				gtx = gtx.Disabled()
+			} else if strings.ContainsAny(modifier, "1234567890") {
 				gtx = gtx.Disabled()
 			}
 			return w(gtx)
