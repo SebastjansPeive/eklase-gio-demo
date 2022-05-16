@@ -63,7 +63,7 @@ func ListStudent(th *material.Theme, state *state.State) Screen {
 
 func ListClass(th *material.Theme, state *state.State) Screen {
 	var close widget.Clickable
-	list2 := widget.List{List: layout.List{Axis: layout.Vertical}}
+	list := widget.List{List: layout.List{Axis: layout.Vertical}}
 
 	lightContrast := th.ContrastBg
 	lightContrast.A = 0x11
@@ -77,7 +77,7 @@ func ListClass(th *material.Theme, state *state.State) Screen {
 	}
 
 	classesLayout := func(gtx layout.Context) layout.Dimensions {
-		return material.List(th, &list2).Layout(gtx, len(classes), func(gtx layout.Context, index int) layout.Dimensions {
+		return material.List(th, &list).Layout(gtx, len(classes), func(gtx layout.Context, index int) layout.Dimensions {
 			class := classes[index]
 			return layout.Stack{}.Layout(gtx,
 				layout.Expanded(func(gtx layout.Context) layout.Dimensions {
