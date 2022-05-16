@@ -2,9 +2,9 @@
 package storage
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
-	"database/sql"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -41,28 +41,28 @@ var (
 	selectStudentsStmt = `SELECT id, name, surname FROM students`
 	insertClassesStmt  = `INSERT INTO classes (year, modifier) VALUES(?, ?)`
 	selectClassesStmt  = `SELECT id, year, modifier FROM classes`
-	selectGroupsStmt   = `SELECT name, surname, year, modifier FROM groups`
+	selectGroupsStmt   = `SELECT students.name, students.surname, year, modifier FROM groups
+	JOIN students ON groups.student_id = students.id`
 	assignClassToStudentStmt = `UPDATE groups SET year = ?, modifier = ? WHERE student_id = ?`
 )
 
 // StudentEntry represents a row for a single student in the DB.
 type StudentEntry struct {
-	ID 		int    `db:"id"`
+	ID      int    `db:"id"`
 	Name    string `db:"name"`
 	Surname string `db:"surname"`
 }
 
 type ClassEntry struct {
-	ID 		 int 	`db:"id"`
+	ID       int    `db:"id"`
 	Year     string `db:"year"`
 	Modifier string `db:"modifier"`
 }
 
 type GroupEntry struct {
-	StudentID int    `db:"student_id"`
+	StudentID int            `db:"student_id"`
 	Name      sql.NullString `db:"name"`
 	Surname   sql.NullString `db:"surname"`
-	ClassID   int    `db:"class_id"`
 	Year      sql.NullString `db:"year"`
 	Modifier  sql.NullString `db:"modifier"`
 }
@@ -117,11 +117,11 @@ func (s Storage) Students() ([]StudentEntry, error) {
 }
 
 func (s Storage) Classes() ([]ClassEntry, error) {
-	var entries2 []ClassEntry
-	if err := s.db.Select(&entries2, selectClassesStmt); err != nil {
+	var entries []ClassEntry
+	if err := s.db.Select(&entries, selectClassesStmt); err != nil {
 		return nil, fmt.Errorf("querying 'classes' table failed. Query: %v\nError: %v", selectClassesStmt, err)
 	}
-	return entries2, nil
+	return entries, nil
 }
 
 func (s Storage) Groups() ([]GroupEntry, error) {

@@ -14,54 +14,54 @@ import (
 // MainMenu defines a main menu screen layout.
 func MainMenu(th *material.Theme, state *state.State) Screen {
 	var (
-		add   widget.Clickable
-		add2  widget.Clickable
-		list  widget.Clickable
-		list2 widget.Clickable
-		list3 widget.Clickable
-		quit  widget.Clickable
+		addStudent   widget.Clickable
+		addClass     widget.Clickable
+		listStudents widget.Clickable
+		listClasses  widget.Clickable
+		listGroups   widget.Clickable
+		quit         widget.Clickable
 	)
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
-		matAddBut := material.Button(th, &add, "Add student")
-		matAddBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x94}
-		matAddBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
-		matAdd2But := material.Button(th, &add2, "Add classes")
-		matAdd2But.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x84}
-		matAdd2But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
-		matListBut := material.Button(th, &list, "List students")
-		matListBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x74}
-		matListBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
-		matList2But := material.Button(th, &list2, "List classes")
-		matList2But.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
-		matList2But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
-		matList3But := material.Button(th, &list3, "List groups")
-		matList3But.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x54}
-		matList3But.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
+		matAddStudentButton := material.Button(th, &addStudent, "Add student")
+		matAddStudentButton.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x94}
+		matAddStudentButton.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
+		matAddClassButton := material.Button(th, &addClass, "Add class")
+		matAddClassButton.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x84}
+		matAddClassButton.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
+		matListStudentsButton := material.Button(th, &listStudents, "List students")
+		matListStudentsButton.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x74}
+		matListStudentsButton.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
+		matListClassesButton := material.Button(th, &listClasses, "List classes")
+		matListClassesButton.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
+		matListClassesButton.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
+		matListGroupsButton := material.Button(th, &listGroups, "List groups")
+		matListGroupsButton.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x54}
+		matListGroupsButton.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matQuitBut := material.Button(th, &quit, "Quit")
 		matQuitBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x54}
 		matQuitBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
-			layout.Rigid(rowInset(matAddBut.Layout)),
-			layout.Rigid(rowInset(matAdd2But.Layout)),
-			layout.Rigid(rowInset(matListBut.Layout)),
-			layout.Rigid(rowInset(matList2But.Layout)),
-			layout.Rigid(rowInset(matList3But.Layout)),
+			layout.Rigid(rowInset(matAddStudentButton.Layout)),
+			layout.Rigid(rowInset(matAddClassButton.Layout)),
+			layout.Rigid(rowInset(matListStudentsButton.Layout)),
+			layout.Rigid(rowInset(matListClassesButton.Layout)),
+			layout.Rigid(rowInset(matListGroupsButton.Layout)),
 			layout.Rigid(rowInset(matQuitBut.Layout)),
 		)
-		if add.Clicked() {
+		if addStudent.Clicked() {
 			return AddStudent(th, state), d
 		}
-		if add2.Clicked() {
+		if addClass.Clicked() {
 			return AddClass(th, state), d
 		}
-		if list.Clicked() {
+		if listStudents.Clicked() {
 			return ListStudent(th, state), d
 		}
-		if list2.Clicked() {
+		if listClasses.Clicked() {
 			return ListClass(th, state), d
 		}
-		if list3.Clicked() {
+		if listGroups.Clicked() {
 			return ListGroup(th, state), d
 		}
 		if quit.Clicked() {
