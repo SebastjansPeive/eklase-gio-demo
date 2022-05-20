@@ -107,10 +107,16 @@ func AddClass(th *material.Theme, state *state.State) Screen {
 		)
 	}
 	buttonsRowLayout := func(gtx layout.Context) layout.Dimensions {
+		matCloseBut := material.Button(th, &close, "Close")
+		matCloseBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
+		matCloseBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
+		matSaveBut := material.Button(th, &save, "Save")
+		matSaveBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
+		matSaveBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		return layout.Flex{Axis: layout.Horizontal, Spacing: layout.SpaceStart}.Layout(gtx,
-			layout.Rigid(material.Button(th, &close, "Close").Layout),
+			layout.Rigid(rowInset(matCloseBut.Layout)),
 			layout.Rigid(spacer.Layout),
-			layout.Rigid(enabledIfNameOK(material.Button(th, &save, "Save").Layout)),
+			layout.Rigid(enabledIfNameOK(rowInset(matSaveBut.Layout))),
 		)
 	}
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
