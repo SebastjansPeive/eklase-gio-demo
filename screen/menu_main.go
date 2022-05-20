@@ -38,7 +38,7 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		matListGroupsButton.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x54}
 		matListGroupsButton.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		matQuitBut := material.Button(th, &quit, "Quit")
-		matQuitBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x54}
+		matQuitBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x44}
 		matQuitBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
