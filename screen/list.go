@@ -146,9 +146,12 @@ func ListGroup(th *material.Theme, state *state.State) Screen {
 					return layout.Dimensions{Size: gtx.Constraints.Min}
 				}),
 				layout.Stacked(rowInset(func(gtx layout.Context) layout.Dimensions {
+					matAssignBut := material.Button(th, &assign[index], "Assign class to student")
+					matAssignBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
+					matAssignBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 					return layout.Flex{}.Layout(gtx,
 						layout.Rigid(rowInset(material.Body1(th, fmt.Sprintf("%s %s %s %s ", group.Name.String, group.Surname.String, group.Year.String, group.Modifier.String)).Layout)),
-						layout.Rigid(rowInset(material.Button(th, &assign[index], "Assign class to student").Layout)),
+						layout.Rigid(rowInset(matAssignBut.Layout)),
 					)
 				})),
 			)
