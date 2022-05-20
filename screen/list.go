@@ -20,10 +20,11 @@ func ListStudent(th *material.Theme, state *state.State) Screen {
 	var close widget.Clickable
 	list := widget.List{List: layout.List{Axis: layout.Vertical}}
 
+	th.ContrastBg = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
 	lightContrast := th.ContrastBg
-	lightContrast.A = 0x11
+	lightContrast.A = 0x33
 	darkContrast := th.ContrastBg
-	darkContrast.A = 0x33
+	darkContrast.A = 0x55
 
 	students, err := state.Students()
 	if err != nil {
@@ -70,10 +71,11 @@ func ListClass(th *material.Theme, state *state.State) Screen {
 	var close widget.Clickable
 	list := widget.List{List: layout.List{Axis: layout.Vertical}}
 
+	th.ContrastBg = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
 	lightContrast := th.ContrastBg
-	lightContrast.A = 0x11
+	lightContrast.A = 0x33
 	darkContrast := th.ContrastBg
-	darkContrast.A = 0x33
+	darkContrast.A = 0x55
 
 	classes, err := state.Classes()
 	if err != nil {
@@ -119,10 +121,11 @@ func ListGroup(th *material.Theme, state *state.State) Screen {
 	var close widget.Clickable
 	list := widget.List{List: layout.List{Axis: layout.Vertical}}
 
+	th.ContrastBg = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
 	lightContrast := th.ContrastBg
-	lightContrast.A = 0x11
+	lightContrast.A = 0x33
 	darkContrast := th.ContrastBg
-	darkContrast.A = 0x33
+	darkContrast.A = 0x55
 
 	groups, err := state.Groups()
 	if err != nil {
