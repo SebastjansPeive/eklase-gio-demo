@@ -4,11 +4,13 @@ import (
 	"eklase/state"
 	"fmt"
 	"image"
+	"image/color"
 	"log"
 
 	"gioui.org/layout"
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
+	"gioui.org/text"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
 )
@@ -49,10 +51,13 @@ func ListStudent(th *material.Theme, state *state.State) Screen {
 	}
 
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
+		matCloseBut := material.Button(th, &close, "Close")
+		matCloseBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
+		matCloseBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Flexed(0.05, rowInset(material.Body1(th, fmt.Sprintf("%s %s %s", "ID", "Surname", "Name")).Layout)),
 			layout.Flexed(1, rowInset(studentsLayout)),
-			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
+			layout.Rigid(rowInset(matCloseBut.Layout)),
 		)
 		if close.Clicked() {
 			return MainMenu(th, state), d
@@ -95,10 +100,13 @@ func ListClass(th *material.Theme, state *state.State) Screen {
 	}
 
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
+		matCloseBut := material.Button(th, &close, "Close")
+		matCloseBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
+		matCloseBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Flexed(0.05, rowInset(material.Body1(th, fmt.Sprintf("%s %s %s", "ID", "Year", "Modifier")).Layout)),
 			layout.Flexed(1, rowInset(classesLayout)),
-			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
+			layout.Rigid(rowInset(matCloseBut.Layout)),
 		)
 		if close.Clicked() {
 			return MainMenu(th, state), d
@@ -148,10 +156,13 @@ func ListGroup(th *material.Theme, state *state.State) Screen {
 	}
 
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
+		matCloseBut := material.Button(th, &close, "Close")
+		matCloseBut.Background = color.NRGBA{A: 0xff, R: 0x5e, G: 0x9c, B: 0x64}
+		matCloseBut.Font = text.Font{Variant: "Smallcaps", Weight: text.Bold, Style: text.Italic}
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Flexed(0.05, rowInset(material.Body1(th, fmt.Sprintf("%s %s %s %s", "Name", "Surname", "Year", "Modifier")).Layout)),
 			layout.Flexed(1, rowInset(groupsLayout)),
-			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
+			layout.Rigid(rowInset(matCloseBut.Layout)),
 		)
 		for i := range assign {
 			if assign[i].Clicked() {
