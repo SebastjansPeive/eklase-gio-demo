@@ -28,7 +28,7 @@ func AddStudent(th *material.Theme, state *state.State) Screen {
 			surname := strings.TrimSpace(surname.Text())
 			if name == "" || surname == "" { // Either name or surname is OK.
 				gtx = gtx.Disabled()
-			} else if strings.ContainsAny(name, "1234567890.,_/?;:!@#$%^&*()[]{}`~") || strings.ContainsAny(surname, "1234567890.,_/?;:!@#$%^&*()[]{}`~") {
+			} else if strings.ContainsAny(name, "1234567890.,_/?;:!@#$%^&*()[]{}`~ ") || strings.ContainsAny(surname, "1234567890.,_/?;:!@#$%^&*()[]{}`~ ") {
 				gtx = gtx.Disabled()
 			}
 			return w(gtx)
@@ -91,9 +91,9 @@ func AddClass(th *material.Theme, state *state.State) Screen {
 			modifier := strings.TrimSpace(modifier.Text())
 			if year == "" || modifier == "" {
 				gtx = gtx.Disabled()
-			} else if strings.ContainsAny(year, "qwertyuiopasdfghjklzxcvbnm.,_/?;:!@#$%^&*()[]{}`~") {
+			} else if strings.ContainsAny(year, "qwertyuiopasdfghjklzxcvbnm.,_/?;:!@#$%^&*()[]{}`~ ") {
 				gtx = gtx.Disabled()
-			} else if strings.ContainsAny(modifier, "1234567890.,_/?;:!@#$%^&*()[]{}`~") {
+			} else if strings.ContainsAny(modifier, "1234567890.,_/?;:!@#$%^&*()[]{}`~ ") {
 				gtx = gtx.Disabled()
 			}
 			return w(gtx)
@@ -155,9 +155,9 @@ func AssignClassToStudent(th *material.Theme, state *state.State, student_id int
 			modifier := strings.TrimSpace(modifier.Text())
 			if year == "" || modifier == "" {
 				gtx = gtx.Disabled()
-			} else if strings.ContainsAny(year, "qwertyuiopasdfghjklzxcvbnm") {
+			} else if strings.ContainsAny(year, "qwertyuiopasdfghjklzxcvbnm.,_/?;:!@#$%^&*()[]{}`~ ") {
 				gtx = gtx.Disabled()
-			} else if strings.ContainsAny(modifier, "1234567890") {
+			} else if strings.ContainsAny(modifier, "1234567890.,_/?;:!@#$%^&*()[]{}`~ ") {
 				gtx = gtx.Disabled()
 			}
 			return w(gtx)
